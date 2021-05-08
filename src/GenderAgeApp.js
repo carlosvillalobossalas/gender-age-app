@@ -1,0 +1,16 @@
+import React from 'react'
+import Main from './components/Main'
+
+const GenderAgeApp = () => {
+    return (
+        <>
+            <div className="navbar navbar-light bg-primary mb-4">
+                <h1 className="title">Gender and Age App</h1>
+            </div>
+
+            <Main />
+        </>
+    )
+}
+
+export default GenderAgeApp
