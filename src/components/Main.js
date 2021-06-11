@@ -1,18 +1,46 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { storage } from '../firebase/firebase-config';
 import { v4 as uuidv4 } from 'uuid';
-import Skeleton from '@material-ui/lab/Skeleton';
 import { Dots } from 'react-activity';
-import 'react-activity/dist/react-activity.css'
+import 'react-activity/dist/react-activity.css';
+import {
+    Container,
+    Menu,
+    Submenu,
+    Result,
+    FileContainer,
+    ImgFile,
+    VideoFile,
+    CanvasFile,
+    OptionsContainer,
+    ButtonFile,
+    ButtonPredict,
+    PredictText,
+    ResultImageContainer,
+    ResultsContainer,
+    ResultImage,
+    Data,
+    DataContainer
+} from '../styles/Main'
 
 const axios = require('axios').default;
 
 const Main = () => {
 
+    let w, h, ratio;
+
     const fileInputRef = useRef();
 
     const [image, setImage] = useState();
+    const [video, setVideo] = useState();
+    const [imageToFirebase, setImageToFirebase] = useState()
+
     const [preview, setPreview] = useState();
+    const [videoPreview, setVideoPreview] = useState();
+    const videoSnapshot = useRef();
+    const videoRef = useRef();
+
+
     const [imageName, setImageName] = useState('');
     const [transfered, setTransfered] = useState(0)
     const [uploading, setUploading] = useState(false);
@@ -23,29 +51,51 @@ const Main = () => {
     const handleChangeFile = (event) => {
         event.preventDefault();
 
+
         const file = event.target.files[0];
 
-        if (file && file.type.substr(0, 5) === 'image') {
-            setImage(file)
-        } else {
-            console.log('No es imagen')
-            setImage(null);
+        if (file) {
+            if (file.type.substr(0, 5) === 'video') {
+                setVideo(file)
+            }
+            else if (file && file.type.substr(0, 5) === 'image') {
+                setImage(file)
+                setImageToFirebase(file)
+            } else {
+                console.log('No es imagen o video')
+                setImage(null);
+                setVideo(null);
+            }
         }
     }
 
-    const handleFile = (image) => {
+    const handleFile = (file, type) => {
         const reader = new FileReader();
         reader.onloadend = () => {
-            setPreview(reader.result);
+            if (type === 'imagen') {
+                setPreview(reader.result);
+            } else {
+                setVideoPreview(reader.result)
+            }
         }
-        reader.readAsDataURL(image);
+        reader.readAsDataURL(file);
+    };
+
+    const handleSnap = () => {
+        const context = videoSnapshot.current.getContext('2d')
+        context.fillRect(0, 0, w, h);
+        context.drawImage(videoRef.current, 0, 0, w, h)
+
+        videoSnapshot.current.toBlob(function (blob) {
+            setImageToFirebase(blob)
+        }, 'image/jpeg')
     }
 
     const handleFirebaseUpload = async () => {
 
         console.log('start of upload...')
 
-        if (image) {
+        if (imageToFirebase) {
             setUploading(true);
             setTransfered(0);
 
@@ -53,7 +103,7 @@ const Main = () => {
             const filename = name + '.jpg';
 
             const storageRef = storage.ref(`uploaded/${filename}`);
-            const task = storageRef.put(image);
+            const task = storageRef.put(imageToFirebase);
 
             task.on('state_changed', (taskSnapshot) => {
                 console.log(`${taskSnapshot.bytesTransferred} transfered out of ${taskSnapshot.totalBytes}`);
@@ -85,29 +135,36 @@ const Main = () => {
 
         setAnimating(true);
         await handleFirebaseUpload();
-    }
+    };
 
-    const handlePrediction = () => {
-        // console.log('Image Name', imageName)
-        axios.post('https://ai-backend-project.herokuapp.com/detectFaces', {
-            imageName: imageName.toString()
-        })
-            .then((res) => {
-                console.log((res.data.response[0].ageCofidence * 100).toFixed(2))
-                setResult(res.data);
+    const handlePrediction = useCallback(
+        async () => {
+            const resp = await axios.post('https://ai-backend-project.herokuapp.com/detectFaces', {
+                imageName: imageName.toString()
             })
-            .catch((e) => console.log('Prediciont Failed', e))
-            .finally(() => setAnimating(false))
 
-    }
+            setResult(resp.data);
+            setAnimating(false)
+        },
+        [imageName],
+    )
+
 
     useEffect(() => {
         if (image) {
-            handleFile(image)
+            handleFile(image, 'imagen')
         } else {
             setPreview(null)
         }
     }, [image]);
+
+    useEffect(() => {
+        if (video) {
+            handleFile(video, 'video')
+        } else {
+            setVideoPreview(null)
+        }
+    }, [video]);
 
     useEffect(() => {
         if (transferedFinished) {
@@ -115,86 +172,126 @@ const Main = () => {
         } else {
             setResult(null)
         }
-    }, [transferedFinished])
+    }, [transferedFinished, handlePrediction,])
 
     return (
-        <div className="container">
-            <div className="image-container">
-                <div className="image-container-1">
-                    <div className="card" >
-                        <img
-                            className="card-img-top"
-                            src={preview ? preview : 'https://via.placeholder.com/500/F55F1E?text=Picture'}
-                            alt="preview"
-                        />
+        <Container>
+            <Menu>
+                <Submenu>
+                    <FileContainer>
+                        {
+                            preview ? (
+                                <ImgFile
+                                    src={preview ? preview : 'https://via.placeholder.com/500/0B6EEF?text=F'}
+                                    alt="preview"
+                                />
+                            ) : (
+                                videoPreview ? (
+                                    <>
+                                        <VideoFile ref={videoRef} controls src={videoPreview ? videoPreview : ''} alt="videoPreview" onLoadedMetadata={({ target }) => {
+                                            ratio = target.videoWidth / target.videoHeight;
+                                            w = target.videoWidth - 100;
+                                            h = parseInt(w / ratio, 10);
+                                            videoSnapshot.current.width = w;
+                                            videoSnapshot.current.height = h;
+                                        }} />
 
-                    </div>
-                    <div className="select-image">
+                                        <CanvasFile ref={videoSnapshot} width="300" height="300"></CanvasFile>
+
+                                    </>
+                                )
+                                    : (
+                                        <ImgFile
+                                            className="card-img-top"
+                                            src={'https://via.placeholder.com/500/0B6EEF?text=F'}
+                                            alt="preview"
+                                        />
+                                    ))
+                        }
+                    </FileContainer>
+                    <OptionsContainer>
                         <input
                             className="file-button"
                             style={{ display: 'none' }}
                             type="file"
                             ref={fileInputRef}
-                            accept="image/"
-                            onChange={(event) => { handleChangeFile(event); }}
+                            accept="image/*|video/*"
+                            onChange={(event) => {
+                                console.log(event)
+                                handleChangeFile(event);
+                            }}
                         />
                         {
-                            preview ? (
-                                <button
-                                    className="image-button"
-                                    onClick={() => {
-                                        setImage(null)
-                                        setResult(null)
-                                        setTransferedFinished(false)
-                                    }}
-                                >
-                                    Remove Image
-                                </button>
+                            videoPreview ? (
+                                <ButtonFile onClick={() => handleSnap()}>Snapshot</ButtonFile>
+                            ) : null
+                        }
+                        {
+                            preview || videoPreview ? (
+                                <>
+                                    <ButtonFile
+                                        onClick={() => {
+                                            setImage(null)
+                                            setVideo(null)
+                                            setResult(null)
+                                            setTransferedFinished(false)
+                                        }}
+                                    >
+                                        Remove File
+                                    </ButtonFile>
+                                    <ButtonPredict onClick={(e) => handleUpload(e)}>
+                                        <PredictText>
+                                            Predict
+                                        </PredictText>
+                                    </ButtonPredict>
+                                    <Dots className="dots" color="#727981" size={35} speed={1} animating={animating} />
+                                </>
                             ) : (
-                                <button
-                                    className="image-button"
+                                <ButtonFile
                                     onClick={(event) => {
                                         event.preventDefault();
                                         fileInputRef.current.click();
                                     }}>
-                                    Open Image
-                                </button>
+                                    Open File
+                                </ButtonFile>
                             )
                         }
-                    </div>
-                </div>
-                <div className="button-container">
-                    <button className="button-prediction" onClick={(e) => handleUpload(e)}>Predict</button>
-                    <Dots className="dots" color="#727981" size={35} speed={1} animating={animating} />
-                </div>
 
-                <div className="image-container-2">
-                    <div className="card">
+                    </OptionsContainer>
+                </Submenu>
+
+                <Result>
+                    <ResultImageContainer>
+                        <ResultImage
+                            src={result ? result.imageURL : 'https://via.placeholder.com/500x600/0B6EEF?text=R'}
+                            alt="preview"
+                        />
+                    </ResultImageContainer>
+                    <ResultsContainer>
                         {
                             result ? (
-
-                                <img
-                                    className="card-img-top"
-                                    src={result ? result.imageURL : 'https://via.placeholder.com/500x600/0B6EEF?text=Imagen'}
-                                    alt="preview" />
-                            ) : (
-                                <Skeleton variant="rect" height={'400px'} />
-                            )
-                        }
-                        {
-                            result ? (
-                                <div className="card-body">
-                                    <span><span style={{ fontWeight: 'bold' }}>Age: </span> {result ? result.response[0].age : ''}</span>
-                                    <span><span style={{ fontWeight: 'bold' }}>Success:  </span> {result ? (result.response[0].ageCofidence * 100).toFixed(2) + '%' : ''} </span>
-                                    <span><span style={{ fontWeight: 'bold' }}>Gender:   </span>{result ? result.response[0].gender : ''} </span>
-                                    <span><span style={{ fontWeight: 'bold' }}>Success:  </span>{result ? (result.response[0].genderCofidence * 100).toFixed(2) + '%' : ''} </span>
-                                </div>
+                                <DataContainer>
+                                    <Data>
+                                        <span style={{ fontWeight: 'bold' }}>Age: </span>
+                                        <span style={{ fontWeight: 'bold' }}>Success:  </span>
+                                        <span style={{ fontWeight: 'bold' }}>Gender:   </span>
+                                        <span style={{ fontWeight: 'bold' }}>Success:  </span>
+                                    </Data>
+                                    <Data>
+                                        <span> {result ? result.response[0].age : ''}</span>
+                                        <span> {result ? (result.response[0].ageCofidence * 100).toFixed(2) + '%' : ''} </span>
+                                        <span>{result ? result.response[0].gender : ''} </span>
+                                        <span>{result ? (result.response[0].genderCofidence * 100).toFixed(2) + '%' : ''} </span>
+                                    </Data>
+                                </DataContainer>
                             ) : null
                         }
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+                    </ResultsContainer>
+                </Result>
+            </Menu>
+        </Container>
     )
 }
 
