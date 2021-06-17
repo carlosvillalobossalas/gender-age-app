@@ -32,21 +32,21 @@ export const FileContainer = styled.div`
     align-items: center;
 `
 export const ImgFile = styled.img`
-    width: 300px;
-    height: 400px;
+    width: 400px;
+    height: 350px;
     border: 5px solid black;
 
 `
 
 export const VideoFile = styled.video`
-    width: 350px;
-    height: 400px;
+    width: 400px;
+    height: 350px;
     margin: 0px 2.5px;
 `
 
 export const CanvasFile = styled.canvas`
-    width: 300px;
-    height: 400px;
+    width: 400px;
+    height: 350px;
     border-radius: 5px;
     margin: 0px 2.5px;
     background-color: lightgrey;
@@ -118,8 +118,8 @@ export const ResultImageContainer = styled.div`
 `
 
 export const ResultImage = styled.img`
-    width: 300px;
-    height: 400px;
+    width: 400px;
+    height: 350px;
     border-radius: 5px;
     border: 5px solid black;
 `
