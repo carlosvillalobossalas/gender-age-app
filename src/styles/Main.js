@@ -5,6 +5,10 @@ export const Container = styled.div`
     height: 800px;
     display: flex;
     justify-content: center;
+    @media screen and (max-width: 480px) {
+        flex-direction: column;
+        height: 1300px;
+    }
     `
 
 export const Menu = styled.div`
@@ -16,12 +20,21 @@ export const Menu = styled.div`
     border: 5px solid #B3B3B3;
     display: flex;
     justify-content: center;
+
+    @media screen and (max-width: 480px){
+        flex-direction: column;
+        width: 697px;
+        height: 1300px;
+    }
 `
 export const Submenu = styled.div`
     width: 700px;
     height: 95%;
     margin-top: 20px;
     /* border: 2px solid red; */
+    @media screen and (max-width: 480px){
+        height: 1600px;
+    }
 `
 
 export const FileContainer = styled.div`
@@ -30,6 +43,11 @@ export const FileContainer = styled.div`
     justify-content: center;
     height: 60%;
     align-items: center;
+
+    @media screen and (max-width: 480px){
+        flex-direction: column;
+    }
+
 `
 export const ImgFile = styled.img`
     width: 400px;
@@ -51,6 +69,9 @@ export const CanvasFile = styled.canvas`
     margin: 0px 2.5px;
     background-color: lightgrey;
     border: 5px solid black;
+    @media screen and (max-width: 480px){
+        margin-top: 10px;
+    }
 
 `
 
@@ -105,6 +126,10 @@ export const Result = styled.div`
     width: 700px;
     height: 95%;
     margin-top: 15px;
+    @media screen and (max-width: 480px){
+        margin-top: 0px;
+        /* height: 1600px; */
+    }
     /* border: 2px solid green; */
 `
 
@@ -115,6 +140,9 @@ export const ResultImageContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    /* @media screen and (max-width:480px){
+        height: 60%;
+    } */
 `
 
 export const ResultImage = styled.img`
@@ -122,6 +150,8 @@ export const ResultImage = styled.img`
     height: 350px;
     border-radius: 5px;
     border: 5px solid black;
+    
+    
 `
 export const ResultsContainer = styled.div`
     width: 100%;
