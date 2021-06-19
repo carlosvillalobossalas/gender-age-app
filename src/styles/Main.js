@@ -5,7 +5,7 @@ export const Container = styled.div`
     height: 800px;
     display: flex;
     justify-content: center;
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: 1000px) {
         flex-direction: column;
         width: 100vw;
         height: 1200px;
@@ -25,7 +25,7 @@ export const Menu = styled.div`
     display: flex;
     justify-content: center;
 
-    @media screen and (max-width: 400px){
+    @media screen and (max-width: 1000px){
         flex-direction: column;
         width: 100vw;
         height: 1100px;
@@ -39,7 +39,7 @@ export const Submenu = styled.div`
     height: 95%;
     margin-top: 20px;
     /* border: 2px solid red; */
-    @media screen and (max-width: 400px){
+    @media screen and (max-width: 1000px){
         width: 100vw;
         height: 1000px;
         display: flex;
@@ -55,7 +55,7 @@ export const FileContainer = styled.div`
     height: 60%;
     align-items: center;
 
-    @media screen and (max-width: 400px){
+    @media screen and (max-width: 1000px){
         flex-direction: column;
         align-self: center;
     }
@@ -66,7 +66,7 @@ export const ImgFile = styled.img`
     height: 350px;
     border: 5px solid black;
 
-    @media screen and (max-width: 400px){
+    @media screen and (max-width: 1000px){
         width: 250px;
         height: 300px;
         display: flex;
@@ -80,7 +80,7 @@ export const VideoFile = styled.video`
     height: 350px;
     margin: 0px 2.5px;
 
-    @media screen and (max-width: 400px){
+    @media screen and (max-width: 1000px){
         width: 250px;
         height: 300px;
         display: flex;
@@ -95,7 +95,7 @@ export const CanvasFile = styled.canvas`
     margin: 0px 2.5px;
     background-color: lightgrey;
     border: 5px solid black;
-    @media screen and (max-width: 400px){
+    @media screen and (max-width: 1000px){
         margin-top: 2%;
         width: 250px;
         height: 300px;
@@ -113,7 +113,7 @@ export const OptionsContainer = styled.div`
     justify-content: center;
     align-items: center;
 
-    @media screen and (max-width: 400px){
+    @media screen and (max-width: 1000px){
         height: ${({ preview }) => (preview !== null ? '22%' : '15%')};
     }
 `
@@ -134,7 +134,7 @@ export const ButtonFile = styled.button`
         outline: none;
     }
 
-    @media screen and (max-width: 400px){
+    @media screen and (max-width: 1000px){
         margin-top: 0px;
     }
 
@@ -155,7 +155,7 @@ export const ButtonPredict = styled.button`
         outline: none;
     }
 
-    @media screen and (max-width: 400px){
+    @media screen and (max-width: 1000px){
         margin-top: 0px;
     }
 
@@ -168,7 +168,7 @@ export const Result = styled.div`
     width: 700px;
     height: 95%;
     margin-top: 15px;
-    @media screen and (max-width: 400px){
+    @media screen and (max-width: 1000px){
         /* width: 250px; */
         height: 800px;
         display: flex;
@@ -196,7 +196,7 @@ export const ResultImage = styled.img`
     border-radius: 5px;
     border: 5px solid black;
 
-    @media screen and (max-width: 400px){
+    @media screen and (max-width: 1000px){
         width: 250px;
         height: 300px;
         display: flex;
