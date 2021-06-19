@@ -8,8 +8,10 @@ export const Container = styled.div`
     @media screen and (max-width: 400px) {
         flex-direction: column;
         width: 100vw;
-        height: 1300px;
+        height: 1200px;
         align-items: center;
+        margin-right: auto;
+        margin-left: auto;
     }
     `
 
@@ -26,8 +28,10 @@ export const Menu = styled.div`
     @media screen and (max-width: 400px){
         flex-direction: column;
         width: 100vw;
-        height: 1300px;
+        height: 1100px;
         align-items: center;
+        margin-left: auto;
+        margin-right: auto;
     }
 `
 export const Submenu = styled.div`
@@ -36,7 +40,7 @@ export const Submenu = styled.div`
     margin-top: 20px;
     /* border: 2px solid red; */
     @media screen and (max-width: 400px){
-        height: 1600px;
+        height: 1000px;
         display: flex;
         flex-direction: column;
     }
@@ -108,7 +112,7 @@ export const OptionsContainer = styled.div`
     align-items: center;
 
     @media screen and (max-width: 400px){
-        height: 20%;
+        height: ${({ preview }) => (preview !== null  ? '22%' : '15%')};
     }
 `
 
@@ -164,7 +168,7 @@ export const Result = styled.div`
     margin-top: 15px;
     @media screen and (max-width: 400px){
         width: 250px;
-        height: 300px;
+        height: 1000px;
         display: flex;
         align-self: center;
         margin-top: 0px;

@@ -220,6 +220,7 @@ const Main = () => {
                                 console.log(event)
                                 handleChangeFile(event);
                             }}
+                            preview={videoPreview}
                         />
                         {
                             videoPreview ? (
