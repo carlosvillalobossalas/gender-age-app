@@ -8,7 +8,7 @@ export const Container = styled.div`
     @media screen and (max-width: 1000px) {
         flex-direction: column;
         width: 100vw;
-        height: 1400px;
+        height: 1300px;
         align-items: center;
         margin-right: auto;
         margin-left: auto;
@@ -28,7 +28,7 @@ export const Menu = styled.div`
     @media screen and (max-width: 1000px){
         flex-direction: column;
         width: 100vw;
-        height: 1400px;
+        height: 1200px;
         align-items: center;
         margin-left: auto;
         margin-right: auto;
@@ -171,7 +171,7 @@ export const Result = styled.div`
     margin-top: 15px;
     @media screen and (max-width: 1000px){
         /* width: 250px; */
-        height: 800px;
+        height: 500px;
         display: flex;
         align-self: center;
         margin-top: 0px;
