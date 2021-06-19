@@ -8,7 +8,7 @@ export const Container = styled.div`
     @media screen and (max-width: 1000px) {
         flex-direction: column;
         width: 100vw;
-        height: 1200px;
+        height: 1400px;
         align-items: center;
         margin-right: auto;
         margin-left: auto;
@@ -28,10 +28,11 @@ export const Menu = styled.div`
     @media screen and (max-width: 1000px){
         flex-direction: column;
         width: 100vw;
-        height: 1100px;
+        height: 1400px;
         align-items: center;
         margin-left: auto;
         margin-right: auto;
+        margin-top: 0px;
     }
 `
 export const Submenu = styled.div`
@@ -41,10 +42,9 @@ export const Submenu = styled.div`
     /* border: 2px solid red; */
     @media screen and (max-width: 1000px){
         width: 100vw;
-        height: 1000px;
+        height: 800px;
         display: flex;
         flex-direction: column;
-        margin-top: 0px;
     }
 `
 
