@@ -5,7 +5,7 @@ export const Container = styled.div`
     height: 800px;
     display: flex;
     justify-content: center;
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 600px) {
         flex-direction: column;
         height: 1300px;
     }
@@ -21,7 +21,7 @@ export const Menu = styled.div`
     display: flex;
     justify-content: center;
 
-    @media screen and (max-width: 480px){
+    @media screen and (max-width: 600px){
         flex-direction: column;
         width: 697px;
         height: 1300px;
@@ -32,7 +32,7 @@ export const Submenu = styled.div`
     height: 95%;
     margin-top: 20px;
     /* border: 2px solid red; */
-    @media screen and (max-width: 480px){
+    @media screen and (max-width: 600px){
         height: 1600px;
     }
 `
@@ -44,7 +44,7 @@ export const FileContainer = styled.div`
     height: 60%;
     align-items: center;
 
-    @media screen and (max-width: 480px){
+    @media screen and (max-width: 600px){
         flex-direction: column;
     }
 
@@ -69,7 +69,7 @@ export const CanvasFile = styled.canvas`
     margin: 0px 2.5px;
     background-color: lightgrey;
     border: 5px solid black;
-    @media screen and (max-width: 480px){
+    @media screen and (max-width: 600px){
         margin-top: 10px;
     }
 
@@ -126,7 +126,7 @@ export const Result = styled.div`
     width: 700px;
     height: 95%;
     margin-top: 15px;
-    @media screen and (max-width: 480px){
+    @media screen and (max-width: 600px){
         margin-top: 0px;
         /* height: 1600px; */
     }
