@@ -1,6 +1,5 @@
 import React from 'react'
 import Main from './components/Main'
-import { Title } from './styles/Main'
 
 const GenderAgeApp = () => {
     return (
