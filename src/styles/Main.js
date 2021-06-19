@@ -40,9 +40,11 @@ export const Submenu = styled.div`
     margin-top: 20px;
     /* border: 2px solid red; */
     @media screen and (max-width: 400px){
+        width: 100vw;
         height: 1000px;
         display: flex;
         flex-direction: column;
+        margin-top: 0px;
     }
 `
 
@@ -112,7 +114,7 @@ export const OptionsContainer = styled.div`
     align-items: center;
 
     @media screen and (max-width: 400px){
-        height: ${({ preview }) => (preview !== null  ? '22%' : '15%')};
+        height: ${({ preview }) => (preview !== null ? '22%' : '15%')};
     }
 `
 
@@ -167,11 +169,12 @@ export const Result = styled.div`
     height: 95%;
     margin-top: 15px;
     @media screen and (max-width: 400px){
-        width: 250px;
-        height: 1000px;
+        /* width: 250px; */
+        height: 800px;
         display: flex;
         align-self: center;
         margin-top: 0px;
+        flex-direction: column;
     }
 `
 
@@ -192,6 +195,13 @@ export const ResultImage = styled.img`
     height: 350px;
     border-radius: 5px;
     border: 5px solid black;
+
+    @media screen and (max-width: 400px){
+        width: 250px;
+        height: 300px;
+        display: flex;
+        align-self: center;
+    }
     
     
 `
