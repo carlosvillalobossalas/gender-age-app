@@ -55,11 +55,11 @@ export const FileContainer = styled.div`
     height: 60%;
     align-items: center;
 
-    /* @media screen and (max-width: 1000px){
+    @media screen and (max-width: 1000px){
         flex-direction: column;
-        align-self: center;
-        height: 400px;
-    } */
+        /* align-self: center;
+        height: 400px; */
+    }
 
 `
 export const ImgFile = styled.img`
